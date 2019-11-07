@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import Pdf from "react-to-pdf";
+
+
 
 import CanvasDraw from "./RCD";
 import uuid from 'uuid/v4'
@@ -6,6 +10,16 @@ import uuid from 'uuid/v4'
 import { API, graphqlOperation } from 'aws-amplify'
 import { onUpdateCanvas } from './graphql/subscriptions'
 import { updateCanvas, createCanvas } from './graphql/mutations'
+import { getCanvas } from './graphql/queries'
+
+// let PDFDocument = require('pdfkit')
+// const fs = require('fs')
+// const canvas2pdf = require('canvas2pdf')
+
+// const file = fs.createWriteStream('example.pdf')
+// //Create a new PDF canvas context.
+// const ctx = new canvas2pdf.PdfContext(file)
+const ref = React.createRef();
 
 const colors = [
   '#D50000',
@@ -54,7 +68,7 @@ class Demo extends Component {
       })
     window.addEventListener('mouseup', (e) => {
       // If we are clicking on a button, do not update anything
-      if (e.target.name === 'clearbutton') return 
+      if (e.target.name === 'clearbutton') return
       this.setState({
         brushColor: rand()
       })
@@ -94,7 +108,7 @@ class Demo extends Component {
           }
           if (this.lineLength === length || length === Number(0)) return
           // Draw new lines to canvas
-          const last = data.lines[length -1]
+          const last = data.lines[length - 1]
           this.canvas.simulateDrawingLines({ lines: [last] })
         }
       })
@@ -114,19 +128,49 @@ class Demo extends Component {
       data: newCanvas
     }
     API.graphql(graphqlOperation(updateCanvas, { input: canvas }))
-        .then(c => {
-          console.log('canvas cleared!')
-        })
-        .catch(err => console.log('error creating: ', err))
+      .then(c => {
+        console.log('canvas cleared!')
+      })
+      .catch(err => console.log('error creating: ', err))
+  }
+  submit = () => {
+    const data = this.canvas.getSaveData()
+    const parsedData = JSON.parse(data)
+    const newData = {
+      ...parsedData,
+      lines: []
+    }
+    console.log(this.canvas)
+    const newCanvas = JSON.stringify(newData)
+    //DBからストローク情報を取得
+    API.graphql(graphqlOperation(getCanvas, { id: 123 }))
+      .then(c => {
+        console.log('canvas submit!')
+        console.log(c)
+      })
+      .catch(err => console.log('error creating: ', err))
+    //PDFに変換する
+    //PDFを送信
+    console.log("submit!!!!")
   }
   render() {
     return (
       <div>
         <button name='clearbutton' onClick={this.clear}>Clear</button>
-        <CanvasDraw
-          {...this.state}
-          ref={canvas => this.canvas = canvas}
-        />
+        <button name='submitbutton' onClick={this.submit}>Submit</button>
+        <div ref={ref}>
+          <CanvasDraw
+            {...this.state}
+            ref={canvas => this.canvas = canvas}
+          />
+        </div>
+        <Pdf targetRef={ref} filename="code-example.pdf">
+          {({ toPdf }) => <button onClick={toPdf}>Generate Pdf</button>}
+        </Pdf>
+        {/* <div ref={ref}>
+          <h1>Hello CodeSandbox</h1>
+          <h2>Start editing to see some magic happen!</h2>
+        </div> */}
       </div>
     );
   }
