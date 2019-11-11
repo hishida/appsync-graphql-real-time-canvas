@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Pdf from "react-to-pdf";
+import pdfMake from "pdfmake";
 
 
 
@@ -66,6 +67,7 @@ class Demo extends Component {
           this.canvas.loadSaveData(d)
         }
       })
+
     window.addEventListener('mouseup', (e) => {
       // If we are clicking on a button, do not update anything
       if (e.target.name === 'clearbutton') return
@@ -143,6 +145,13 @@ class Demo extends Component {
     console.log(this.canvas)
     const newCanvas = JSON.stringify(newData)
     //DBからストローク情報を取得
+    var docDefinition = {
+      content: [
+        // if you don't need styles, you can use a simple string to define a paragraph
+        'This is a standard paragraph, using default style',
+      ]
+    };
+    pdfMake.createPdf(docDefinition).download();
     API.graphql(graphqlOperation(getCanvas, { id: 123 }))
       .then(c => {
         console.log('canvas submit!')
@@ -153,6 +162,8 @@ class Demo extends Component {
     //PDFを送信
     console.log("submit!!!!")
   }
+  
+
   render() {
     return (
       <div>
