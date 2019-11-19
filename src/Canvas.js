@@ -67,6 +67,9 @@ class Demo extends Component {
         }
       })
 
+      window.addEventListener('touchmove', function(event){
+        event.preventDefault();
+      })
     window.addEventListener('mouseup', (e) => {
       // If we are clicking on a button, do not update anything
       if (e.target.name === 'clearbutton') return
