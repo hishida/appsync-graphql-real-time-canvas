@@ -16,7 +16,7 @@ function midPointBtw(p1, p2) {
 
 const canvasStyle = {
   display: "block",
-  position: "relative"
+  position: "absolute"
 };
 
 const canvasTypes = [
