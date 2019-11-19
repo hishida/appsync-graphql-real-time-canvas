@@ -21,15 +21,14 @@ import { getCanvas } from './graphql/queries'
 // //Create a new PDF canvas context.
 // const ctx = new canvas2pdf.PdfContext(file)
 const ref = React.createRef();
-
 const colors = [
-  '#D50000',
-  '#AA00FF',
-  '#2962FF',
-  '#18FFFF',
-  '#00C853',
-  '#FFD600',
-  '#FF6D00',
+  // '#D50000',
+  // '#AA00FF',
+  // '#2962FF',
+  // '#18FFFF',
+  // '#00C853',
+  // '#FFD600',
+  // '#FF6D00',
   '#000000'
 ]
 
@@ -40,8 +39,8 @@ function rand() {
 class Demo extends Component {
   state = {
     brushColor: rand(),
-    canvasHeight: 350,
-    canvasWidth: 380,
+    canvasHeight: 600,
+    canvasWidth: 600,
     brushRadius: 4,
     lazyRadius: 8
   }
@@ -68,7 +67,7 @@ class Demo extends Component {
         }
       })
 
-    window.addEventListener('pointerup', (e) => {
+    window.addEventListener('mouseup', (e) => {
       // If we are clicking on a button, do not update anything
       if (e.target.name === 'clearbutton') return
       this.setState({
@@ -116,6 +115,7 @@ class Demo extends Component {
       })
   }
   clear = () => {
+    console.log(this.state);
     const data = this.canvas.getSaveData()
     const parsedData = JSON.parse(data)
     const newData = {
@@ -151,6 +151,8 @@ class Demo extends Component {
         'This is a standard paragraph, using default style',
       ]
     };
+    //ここ↓で何かエラー吐かれる。メッセージは「Uncaught File 'Roboto-Regular.ttf' not found in virtual file system」
+    //pdfmakeの何かを入れれば解決するか。
     pdfMake.createPdf(docDefinition).download();
     API.graphql(graphqlOperation(getCanvas, { id: 123 }))
       .then(c => {
@@ -161,6 +163,10 @@ class Demo extends Component {
     //PDFに変換する
     //PDFを送信
     console.log("submit!!!!")
+  }
+  undo = () => {
+    console.log("undo");
+    this.canvas.undo();
   }
   
 
@@ -175,6 +181,7 @@ class Demo extends Component {
             ref={canvas => this.canvas = canvas}
           />
         </div>
+        <button name='undobutton' onClick={this.undo}>Undo</button>
         <Pdf targetRef={ref} filename="code-example.pdf">
           {({ toPdf }) => <button onClick={toPdf}>Generate Pdf</button>}
         </Pdf>

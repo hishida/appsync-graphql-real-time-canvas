@@ -543,6 +543,7 @@ export default class extends PureComponent {
         style={{
           display: "block",
           background: "#fff",
+          //iPad関連で弄る可能性がある↓
           touchAction: "none",
           width: this.props.canvasWidth,
           height: this.props.canvasHeight,
