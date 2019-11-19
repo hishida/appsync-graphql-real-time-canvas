@@ -545,8 +545,10 @@ export default class extends PureComponent {
           background: "#fff",
           //iPad関連で弄る可能性がある↓
           touchAction: "none",
-          width: this.props.canvasWidth,
-          height: this.props.canvasHeight,
+          // width: this.props.canvasWidth,
+          // height: this.props.canvasHeight,
+          width: document.documentElement.clientWidth,
+          height: document.documentElement.clientHeight-(28*3),
           ...this.props.style
         }}
         ref={container => {

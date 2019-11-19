@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import Pdf from "react-to-pdf";
 import pdfMake from "pdfmake";
 
@@ -39,8 +38,8 @@ function rand() {
 class Demo extends Component {
   state = {
     brushColor: rand(),
-    canvasHeight: 1200,
-    canvasWidth: 1200,
+    canvasHeight: 300,
+    canvasWidth: 400,
     brushRadius: 4,
     lazyRadius: 8
   }
@@ -175,16 +174,16 @@ class Demo extends Component {
 
   render() {
     return (
-      <div>
+      <div width="100%" hegiht="100%">
         <button name='clearbutton' onClick={this.clear}>Clear</button>
         <button name='submitbutton' onClick={this.submit}>Submit</button>
-        <div ref={ref}>
-          <CanvasDraw
-            {...this.state}
-            ref={canvas => this.canvas = canvas}
+        <div ref={ref} width="100%" hegiht="100%">
+          <CanvasDraw 
+            {...this.state} 
+            ref={canvas => this.canvas = canvas} width="100%" hegiht="100%"
           />
         </div>
-        <button name='undobutton' onClick={this.undo}>Undo</button>
+        {/* <button name='undobutton' onClick={this.undo}>Undo</button> */}
         <Pdf targetRef={ref} filename="code-example.pdf">
           {({ toPdf }) => <button onClick={toPdf}>Generate Pdf</button>}
         </Pdf>
