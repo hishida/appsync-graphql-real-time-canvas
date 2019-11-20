@@ -70,26 +70,6 @@ class Demo extends Component {
       event.preventDefault();
     })
 
-    var textarea = document.querySelector('canvas');
-    textarea.scrollTop = 1;
-
-    window.addEventListener('touchmove', function (event) {
-      if (event.target === textarea && textarea.scrollTop !== 0 && textarea.scrollTop + textarea.clientHeight !== textarea.scrollHeight) {
-        event.stopPropagation();
-      }
-      else {
-        event.preventDefault();
-      }
-    });
-
-    textarea.addEventListener('scroll', function (event) {
-      if (textarea.scrollTop === 0) {
-        textarea.scrollTop = 1;
-      }
-      else if (textarea.scrollTop + textarea.clientHeight === textarea.scrollHeight) {
-        textarea.scrollTop = textarea.scrollTop - 1;
-      }
-    });
 
     window.addEventListener('mouseup', (e) => {
       // If we are clicking on a button, do not update anything
