@@ -66,9 +66,31 @@ class Demo extends Component {
         }
       })
 
-      window.addEventListener('touchmove', function(event){
+    window.addEventListener('touchmove', function (event) {
+      event.preventDefault();
+    })
+
+    var textarea = document.querySelector('canvas');
+    textarea.scrollTop = 1;
+
+    window.addEventListener('touchmove', function (event) {
+      if (event.target === textarea && textarea.scrollTop !== 0 && textarea.scrollTop + textarea.clientHeight !== textarea.scrollHeight) {
+        event.stopPropagation();
+      }
+      else {
         event.preventDefault();
-      })
+      }
+    });
+
+    textarea.addEventListener('scroll', function (event) {
+      if (textarea.scrollTop === 0) {
+        textarea.scrollTop = 1;
+      }
+      else if (textarea.scrollTop + textarea.clientHeight === textarea.scrollHeight) {
+        textarea.scrollTop = textarea.scrollTop - 1;
+      }
+    });
+
     window.addEventListener('mouseup', (e) => {
       // If we are clicking on a button, do not update anything
       if (e.target.name === 'clearbutton') return
@@ -170,14 +192,14 @@ class Demo extends Component {
     console.log("undo");
     this.canvas.undo();
   }
-  
+
 
   render() {
     return (
       <div width="100%" hegiht="100%">
         <div ref={ref} width="100%" hegiht="100%">
-          <CanvasDraw 
-            {...this.state} 
+          <CanvasDraw
+            {...this.state}
             ref={canvas => this.canvas = canvas} width="100%" hegiht="100%"
           />
         </div>
