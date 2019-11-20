@@ -1,6 +1,7 @@
 :root {
   --yellow: #ffc600;
   --black: #272727;
+  /* background-image: url(./backImage.png); */
 }
 
 html {
@@ -15,7 +16,7 @@ html {
 body {
   background-color: #808080;
   height: 100%;
-  margin: auto;
+  /* margin: auto; */
 }
 
 span {
