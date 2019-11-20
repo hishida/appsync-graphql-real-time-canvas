@@ -66,7 +66,7 @@ class Demo extends Component {
         }
       })
 
-    window.addEventListener('mouseup', (e) => {
+    window.addEventListener('touchup', (e) => {
       // If we are clicking on a button, do not update anything
       if (e.target.name === 'clearbutton') return
       this.setState({
