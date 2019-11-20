@@ -175,14 +175,14 @@ class Demo extends Component {
   render() {
     return (
       <div width="100%" hegiht="100%">
-        <button name='clearbutton' onClick={this.clear}>Clear</button>
-        <button name='submitbutton' onClick={this.submit}>Submit</button>
         <div ref={ref} width="100%" hegiht="100%">
           <CanvasDraw 
             {...this.state} 
             ref={canvas => this.canvas = canvas} width="100%" hegiht="100%"
           />
         </div>
+        <button name='clearbutton' onClick={this.clear}>Clear</button>
+        <button name='submitbutton' onClick={this.submit}>Submit</button>
         {/* <button name='undobutton' onClick={this.undo}>Undo</button> */}
         <Pdf targetRef={ref} filename="code-example.pdf">
           {({ toPdf }) => <button onClick={toPdf}>Generate Pdf</button>}

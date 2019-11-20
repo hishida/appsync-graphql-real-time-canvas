@@ -548,7 +548,7 @@ export default class extends PureComponent {
           // width: this.props.canvasWidth,
           // height: this.props.canvasHeight,
           width: document.documentElement.clientWidth,
-          height: document.documentElement.clientHeight-(28*3),
+          height: document.documentElement.clientHeight-28,
           ...this.props.style
         }}
         ref={container => {
