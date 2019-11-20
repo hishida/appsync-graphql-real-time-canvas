@@ -248,6 +248,7 @@ export default class extends PureComponent {
   };
 
   handleTouchStart = e => {
+    console.log("touch1");
     const { x, y } = this.getPointerPos(e);
     this.lazy.update({ x, y }, { both: true });
     this.handleMouseDown(e);
@@ -256,12 +257,14 @@ export default class extends PureComponent {
   };
 
   handleTouchMove = e => {
+    console.log("touch2");
     e.preventDefault();
     const { x, y } = this.getPointerPos(e);
     this.handlePointerMove(x, y);
   };
 
   handleTouchEnd = e => {
+    console.log("touch3");
     this.handleMouseUp(e);
     const brush = this.lazy.getBrushCoordinates();
     this.lazy.update({ x: brush.x, y: brush.y }, { both: true });
@@ -269,16 +272,19 @@ export default class extends PureComponent {
   };
 
   handleMouseDown = e => {
+    console.log("mouse1");
     e.preventDefault();
     this.isPressing = true;
   };
 
   handleMouseMove = e => {
+    console.log("mouse2");
     const { x, y } = this.getPointerPos(e);
     this.handlePointerMove(x, y);
   };
 
   handleMouseUp = e => {
+    console.log("mouse3");
     e.preventDefault();
     this.isDrawing = false;
     this.isPressing = false;

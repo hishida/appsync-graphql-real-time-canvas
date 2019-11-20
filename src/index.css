@@ -40,3 +40,6 @@ p {
 input[type=number] {
   width: 50px;
 }
+canvas {
+  background:url(./backImage.png) 
+}

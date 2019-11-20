@@ -89,6 +89,29 @@ class Demo extends Component {
         })
         .catch(err => console.log('error creating: ', err))
     })
+    window.addEventListener('touchup', (e) => {
+      // If we are clicking on a button, do not update anything
+      if (e.target.name === 'clearbutton') return
+      this.setState({
+        brushColor: rand()
+      })
+      const data = this.canvas.getSaveData()
+      const p = JSON.parse(data)
+      const length = p.lines.length
+      this.lineLength = length
+
+      const canvas = {
+        id: this.id,
+        clientId: this.clientId,
+        data
+      }
+      // Save updated canvas in the database
+      API.graphql(graphqlOperation(updateCanvas, { input: canvas }))
+        .then(c => {
+          console.log('canvas updated!')
+        })
+        .catch(err => console.log('error creating: ', err))
+    })
     API.graphql(graphqlOperation(onUpdateCanvas))
       .subscribe({
         next: (d) => {
